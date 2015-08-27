@@ -31,6 +31,12 @@
 
     }
     ?>
+    
+    <?php 
+		if( 'review' == get_post_type() ) {
+			echo '<div class="reviews-header">Review</div>';	
+		}
+	?>
 	<header class="entry-header clear">
             <?php
 
