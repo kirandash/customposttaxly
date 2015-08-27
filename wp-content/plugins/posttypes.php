@@ -106,5 +106,39 @@ function my_rewrite_flush() {
 }
 register_activation_hook( __FILE__, 'my_rewrite_flush' );
                 
-            
+
+// Custom Taxonomies
+function my_custom_taxonomies() {
+	register_taxonomy(
+		'Type of Product/Service',
+		'review',
+		array(
+			'label' => __( 'Type of Product/Service' ),
+			'rewrite' => array( 'slug' => 'product-type' ),
+			'hierarchical' => true,
+		)
+	);
+        
+        register_taxonomy(
+		'Price Range',
+		'review',
+		array(
+			'label' => __( 'Price Range' ),
+			'rewrite' => array( 'slug' => 'price' ),
+			'hierarchical' => true,
+		)
+	);
+        
+        register_taxonomy(
+		'Mood',
+		'review',
+		array(
+			'label' => __( 'Mood' ),
+			'rewrite' => array( 'slug' => 'mood' ),
+			'hierarchical' => false,
+		)
+	);
+}
+
+add_action( 'init', 'my_custom_taxonomies' );            
 ?>				
