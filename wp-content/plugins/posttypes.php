@@ -61,6 +61,41 @@ function my_custom_posttypes() {
         'supports'           => array( 'title', 'editor', 'thumbnail' )
     );
     register_post_type( 'testimonial', $args );
+	
+	 $labels = array(
+        'name'               => 'Reviews',
+        'singular_name'      => 'Review',
+        'menu_name'          => 'Reviews',
+        'name_admin_bar'     => 'Review',
+        'add_new'            => 'Add New',
+        'add_new_item'       => 'Add New Review',
+        'new_item'           => 'New Review',
+        'edit_item'          => 'Edit Review',
+        'view_item'          => 'View Review',
+        'all_items'          => 'All Reviews',
+        'search_items'       => 'Search Reviews',
+        'parent_item_colon'  => 'Parent Reviews:',
+        'not_found'          => 'No reviews found.',
+        'not_found_in_trash' => 'No reviews found in Trash.',
+    );
+    
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array( 'slug' => 'reviews' ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => 5,
+        'menu_icon'          => 'dashicons-star-half',
+        'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+        'taxonomies'         => array( 'category', 'post_tag' )
+    );
+    register_post_type( 'review', $args );
 }
 add_action( 'init', 'my_custom_posttypes' );
 
