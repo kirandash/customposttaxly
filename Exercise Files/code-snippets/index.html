@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    
+    <title>
+      Code Snippets for WordPress: Custom Post Types and Taxonomies
+    </title>
+    <link rel="stylesheet" href="parts/style.css">
+    <link rel="stylesheet" href="parts/exercise-files.css">
+    <link href="parts/prism.css" rel="stylesheet" />
+    
+    
+</head>
+<body>
+<script src="parts/prism.js"></script>
+    <header class="masthead">
+        <div class="wrapper">
+            <h1>WordPress:<br> Custom Post Types and Taxonomies</h1>    
+            <div class="sub">Code Snippets</div>
+        </div>
+    </header>
+    
+    <nav class="navigation">
+        <ul class="wrapper">
+            <li>
+                <a href="#chapter-02">Chapter 2: Creating a Plugin for Custom Post Types and Taxonomies</a>
+                <ul>
+                    <li><a href="#movie-0303">2.1 - Creating a basic plugin</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#chapter-03">Chapter 3: Creating Custom Post Types</a>
+                <ul>
+                    <li><a href="#movie-0301">3.1 - Creating a basic custom post type</a></li>
+                    <li><a href="#movie-0303">3.3 - Building out an advanced custom post type</a></li>
+                    <li><a href="#movie-0305">3.5 - Solution: Create a Custom Post Type for Reviews</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#chapter-04">Chapter 4: Creating Custom Taxonomies</a>
+                <ul>
+                    <li><a href="#movie-0401">4.1 - Creating basic custom taxonomies</a></li>
+                    <li><a href="#movie-0402">4.2 - Associating custom taxonomies with post types</a></li>
+                    <li><a href="#movie-0404">4.4 - Building out advanced custom taxonomies</a></li>
+                    <li><a href="#movie-0406">4.6 - Solution: Create a custom taxonomy for Rating</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#chapter-05">Chapter 5: Creating Custom Post Type Templates</a>
+                <ul>
+                    <li><a href="#movie-0502">5.2 - Creating a Custom Post Type single post template</a></li>
+                    <li><a href="#movie-0503">5.3 - Adding custom taxonomies to a template</a></li>
+                    <li><a href="#movie-0505">5.5 - Solution: Create a single template for review</a></li>
+                    <li><a href="#movie-0506">5.6 - Creating a taxonomy index template</a></li>
+                    <li><a href="#movie-0507">5.7 - Creating a custom post type index page</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#chapter-06">Chapter 6: Working with Custom Post Types and Taxonomies</a>
+                <ul>
+                    <li><a href="#movie-0601">6.1 - Including Custom Post Types in the index (blog) page</a></li>
+                    <li><a href="#movie-0602">6.2 - Creating custom loops for custom post types</a></li>
+                    <li><a href="#movie-0603">6.3 - Including Custom Post Types and Taxonomies in WordPress Search</a></li>
+                    <li><a href="#movie-0604">6.4 - Exploring custom taxonomy queries</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="wrapper">
+
+    <div id="main">
+        <section id="chapter-02" class="chapter">
+            <h2 class="chsapter-title">Chapter 2: Creating a plugin for Custom Post Types and Taxonomies</h1>
+            <article id="movie-0201" class="movie">
+                <h3 class="movie-title">2.1 - Creating a basic plugin</h3>
+                <h4>In plugins/posttypes.php:</h4>
+                <pre><code class="language-php">
+&lt;?php
+/**
+ * Plugin Name: Custom Post Types and Taxonomies
+ * Plugin URI: http://yoursite.com
+ * Description: A simple plugin that adds custom post types and taxonomies
+ * Version: 0.1
+ * Author: Your Name
+ * Author URI: http://yoursite.com
+ * License: GPL2
+ */
+
+/*  Copyright YEAR  YOUR_NAME  (email : your@email.com)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License, version 2, as 
+    published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+                </code></pre>
+            </article><!-- .movie -->
+        </section><!-- #chapter-02 -->
+        <section id="chapter-03" class="chapter">
+            <h2 class="chsapter-title">Chapter 3: Creating Custom Post Types</h1>
+            <article id="movie-0301" class="movie">
+                <h3 class="movie-title">3.1 - Creating a basic Custom Post Type</h3>
+                <h4>In plugins/posttypes.php:</h4>
+                <pre><code class="language-php">
+function my_custom_posttypes() {
+    $args = array(
+      'public' => true,
+      'label'  => 'Testimonials'
+    );
+    register_post_type( 'testimonial', $args );
+}
+add_action( 'init', 'my_custom_posttypes' );
+                </code></pre>
+            </article><!-- .movie -->
+            <article id="movie-0303" class="movie">
+                <h3 class="movie-title">3.3 - Building out an advanced Custom Post Type</h3>
+                <h4>In plugins/posttypes.php:</h4>
+                <pre><code class="language-php">
+function my_custom_posttypes() {
+    
+    $labels = array(
+        'name'               => 'Testimonials',
+        'singular_name'      => 'Testimonial',
+        'menu_name'          => 'Testimonials',
+        'name_admin_bar'     => 'Testimonial',
+        'add_new'            => 'Add New',
+        'add_new_item'       => 'Add New Testimonial',
+        'new_item'           => 'New Testimonial',
+        'edit_item'          => 'Edit Testimonial',
+        'view_item'          => 'View Testimonial',
+        'all_items'          => 'All Testimonials',
+        'search_items'       => 'Search Testimonials',
+        'parent_item_colon'  => 'Parent Testimonials:',
+        'not_found'          => 'No testimonials found.',
+        'not_found_in_trash' => 'No testimonials found in Trash.',
+    );
+    
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'menu_icon'          => 'dashicons-id-alt',
+        'query_var'          => true,
+        'rewrite'            => array( 'slug' => 'testimonials' ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => 5,
+        'supports'           => array( 'title', 'editor', 'thumbnail' )
+    );
+    register_post_type( 'testimonial', $args );
+}
+add_action( 'init', 'my_custom_posttypes' );
+
+// Flush rewrite rules to add "review" as a permalink slug
+function my_rewrite_flush() {
+    my_custom_posttypes();
+    flush_rewrite_rules();
+}
+register_activation_hook( __FILE__, 'my_rewrite_flush' );
+                </code></pre>
+            </article><!-- .movie -->
+            <article id="movie-0305" class="movie">
+                <h3 class="movie-title">3.5 - Solution: Create a Custom Post Type for Reviews</h3>
+                <h4>In plugins/posttypes.php:</h4>
+                <pre><code class="language-php">
+    $labels = array(
+        'name'               => 'Reviews',
+        'singular_name'      => 'Review',
+        'menu_name'          => 'Reviews',
+        'name_admin_bar'     => 'Review',
+        'add_new'            => 'Add New',
+        'add_new_item'       => 'Add New Review',
+        'new_item'           => 'New Review',
+        'edit_item'          => 'Edit Review',
+        'view_item'          => 'View Review',
+        'all_items'          => 'All Reviews',
+        'search_items'       => 'Search Reviews',
+        'parent_item_colon'  => 'Parent Reviews:',
+        'not_found'          => 'No reviews found.',
+        'not_found_in_trash' => 'No reviews found in Trash.',
+    );
+    
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array( 'slug' => 'reviews' ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => 5,
+        'menu_icon'          => 'dashicons-star-half',
+        'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+        'taxonomies'         => array( 'category', 'post_tag' )
+    );
+    register_post_type( 'review', $args );
+                </code></pre>
+            </article><!-- .movie -->
+        </section><!-- #chapter-03 -->
+        <section id="chapter-04" class="chapter">
+            <h2 class="chsapter-title">Chapter 4: Creating Custom Taxonomies</h1>
+            <article id="movie-0401" class="movie">
+                <h3 class="movie-title">4.1 - Creating basic custom taxonomies</h3>
+                <h4>In plugins/posttypes.php:</h4>
+                <pre><code class="language-php">
+// Custom Taxonomies
+function my_custom_taxonomies() {
+	register_taxonomy(
+		'Type of Product/Service',
+		'review',
+		array(
+			'label' => __( 'Type of Product/Service' ),
+			'rewrite' => array( 'slug' => 'product-type' ),
+			'hierarchical' => true,
+		)
+	);
+        
+        register_taxonomy(
+		'Price Range',
+		'review',
+		array(
+			'label' => __( 'Price Range' ),
+			'rewrite' => array( 'slug' => 'price' ),
+			'hierarchical' => true,
+		)
+	);
+        
+        register_taxonomy(
+		'Mood',
+		'review',
+		array(
+			'label' => __( 'Mood' ),
+			'rewrite' => array( 'slug' => 'mood' ),
+			'hierarchical' => false,
+		)
+	);
+}
+
+add_action( 'init', 'my_custom_taxonomies' );
+                </code></pre>
+            </article><!-- .movie -->
+            <article id="movie-0403" class="movie">
+                <h3 class="movie-title">4.3 - Building out advanced Custom Taxonomies</h3>
+                <h4>In plugins/posttypes.php:</h4>
+                <pre><code class="language-php">
+// Custom Taxonomies
+function my_custom_taxonomies() {
+	
+    // Type of Product/Service taxonomy
+    $labels = array(
+        'name'              => 'Type of Products/Services',
+        'singular_name'     => 'Type of Product/Service',
+        'search_items'      => 'Search Types of Products/Services',
+        'all_items'         => 'All Types of Products/Services',
+        'parent_item'       => 'Parent Type of Product/Service',
+        'parent_item_colon' => 'Parent Type of Product/Service:',
+        'edit_item'         => 'Edit Type of Product/Service',
+        'update_item'       => 'Update Type of Product/Service',
+        'add_new_item'      => 'Add New Type of Product/Service',
+        'new_item_name'     => 'New Type of Product/Service Name',
+        'menu_name'         => 'Type of Product/Service',
+    );
+
+    $args = array(
+        'hierarchical'      => true,
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'product-types' ),
+    );
+
+    register_taxonomy( 'product-type', array( 'review' ), $args );
+
+    // Mood taxonomy (non-hierarchical)
+    $labels = array(
+        'name'                       => 'Moods',
+        'singular_name'              => 'Mood',
+        'search_items'               => 'Search Moods',
+        'popular_items'              => 'Popular Moods',
+        'all_items'                  => 'All Moods',
+        'parent_item'                => null,
+        'parent_item_colon'          => null,
+        'edit_item'                  => 'Edit Mood',
+        'update_item'                => 'Update Mood',
+        'add_new_item'               => 'Add New Mood',
+        'new_item_name'              => 'New Mood Name',
+        'separate_items_with_commas' => 'Separate moods with commas',
+        'add_or_remove_items'        => 'Add or remove moods',
+        'choose_from_most_used'      => 'Choose from the most used moods',
+        'not_found'                  => 'No moods found.',
+        'menu_name'                  => 'Moods',
+    );
+
+    $args = array(
+        'hierarchical'          => false,
+        'labels'                => $labels,
+        'show_ui'               => true,
+        'show_admin_column'     => true,
+        'update_count_callback' => '_update_post_term_count',
+        'query_var'             => true,
+        'rewrite'               => array( 'slug' => 'moods' ),
+    );
+
+    register_taxonomy( 'mood', array( 'review', 'post' ), $args );
+}
+
+add_action( 'init', 'my_custom_taxonomies' );
+                </code></pre>
+            </article><!-- .movie -->
+            <article id="movie-0405" class="movie">
+                <h3 class="movie-title">4.5 - Solution: Create a Custom Taxonomy for Rating</h3>
+                <h4>In plugins/posttypes.php:</h4>
+                <pre><code class="language-php">
+// Price Range taxonomy
+    $labels = array(
+        'name'              => 'Price Ranges',
+        'singular_name'     => 'Price Range',
+        'search_items'      => 'Search Price Ranges',
+        'all_items'         => 'All Price Ranges',
+        'parent_item'       => 'Parent Price Range',
+        'parent_item_colon' => 'Parent Price Range:',
+        'edit_item'         => 'Edit Price Range',
+        'update_item'       => 'Update Price Range',
+        'add_new_item'      => 'Add New Price Range',
+        'new_item_name'     => 'New Price Range Name',
+        'menu_name'         => 'Price Range',
+    );
+
+    $args = array(
+        'hierarchical'      => true,
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'prices' ),
+    );
+
+    register_taxonomy( 'price', array( 'review' ), $args );
+                </code></pre>
+            </article><!-- .movie -->
+        </section><!-- #chapter-04 -->
+        <section id="chapter-05" class="chapter">
+            <h2 class="chsapter-title">Chapter 5: Creating Custom Post Type Templates</h1>
+            <article id="movie-0502" class="movie">
+                <h3 class="movie-title">5.2 - Creating a single post template for a Custom Post Type</h3>
+                <h4>In childtheme/style.css:</h4>
+                <pre><code class="language-php">
+/*
+ Theme Name:   Your Child Theme
+ Description:  hild theme for displaying custom post types and taxonomies
+ Author:       Your Name
+ Author URI:   http://yoursite.com
+ Template:     [parenttheme] (folder name for parent theme)
+ Version:      1.0.0
+*/
+
+@import url("../[parenttheme]/style.css");
+                </code></pre>
+            </article><!-- .movie -->
+            <article id="movie-0503" class="movie">
+                <h3 class="movie-title">5.3 - Adding custom taxonomies to a template</h3>
+                <h4>In childtheme/content-review.php:</h4>
+                <pre><code class="language-php">
+&lt;div class="taxonomies">
+    &lt;div class="product-type">
+        &lt;?php echo get_the_term_list( $post->ID, 'product-type', 'Type of product: ', ', ', '' ); ?> 
+    &lt;/div>
+    &lt;div class="price-range">
+        &lt;?php echo get_the_term_list( $post->ID, 'price', 'Price Range: ', ', ', '' ); ?> 
+    &lt;/div>
+    &lt;div class="mood">
+        &lt;?php echo get_the_term_list( $post->ID, 'mood', 'The mood this puts me in: ', ', ', '' ); ?> 
+    &lt;/div>
+&lt;/div>
+                </code></pre>
+                <h4>In childtneme/style.css:</h4>
+                <pre><code class="language-css">
+.taxonomies {
+    font-family: 'Lato';
+    font-size: 90%;
+    margin-bottom: 2rem;
+}
+
+.taxonomies a {
+    font-weight: 600;
+}
+                </code></pre>
+            </article><!-- .movie -->
+            <article id="movie-0505" class="movie">
+                <h3 class="movie-title">5.5 - Creating a taxonomy archive template</h3>
+                <h4>In childtheme/content.php:</h4>
+                <pre><code class="language-php">
+&lt;?php 
+if ( is_post_type_archive('review') ) { ?>
+    &lt;div class="taxonomies">
+        &lt;div class="product-type">
+            &lt;?php echo get_the_term_list( $post->ID, 'product-type', 'Type of product: ', ', ', '' ); ?> 
+        &lt;/div>
+        &lt;div class="price-range">
+            &lt;?php echo get_the_term_list( $post->ID, 'price', 'Price Range: ', ', ', '' ); ?> 
+        &lt;/div>
+        &lt;div class="mood">
+            &lt;?php echo get_the_term_list( $post->ID, 'mood', 'The mood this puts me in: ', ', ', '' ); ?> 
+        &lt;/div>
+    &lt;/div>
+&lt;?php } ?>
+                </code></pre>
+            </article><!-- .movie -->
+        </section><!-- #chapter-05 -->
+        <section id="chapter-06" class="chapter">
+            <h2 class="chsapter-title">Chapter 6: Working with Custom Post Types and Taxonomies</h1>
+            <article id="movie-0601" class="movie">
+                <h3 class="movie-title">6.1 - Including Custom Post Types in the front page and search results</h3>
+                <h4>In childtheme/functions.php:</h4>
+                <pre><code class="language-php">
+function my_add_reviews( $query ) {
+    if ( ! is_admin() && $query->is_main_query() {
+        if ($query->is_home() || $query->is_search() ) {
+        $query->set( 'post_type', array( 'post', 'review' ) );
+        }
+    }
+}
+
+add_action( 'pre_get_posts', 'my_add_reviews' );
+                </code></pre>
+            </article><!-- .movie -->
+            <article id="movie-0602" class="movie">
+                <h3 class="movie-title">6.2 - Creating custom loops for Custom Post Types</h3>
+                <h4>In childtheme/testimonials.php:</h4>
+                <pre><code class="language-php">
+&lt;?php
+/* 
+ * Display 3 random testimonials
+ */
+
+$args = array( 
+    'post_type' => 'testimonial', 
+    'posts_per_page' => 3,
+    'orderby' => 'rand'
+);
+
+$testimonials = new WP_Query( $args );
+echo '&lt;aside id="testimonials" class="clear">';
+while ( $testimonials->have_posts() ) : $testimonials->the_post();
+    echo '&lt;div class="testimonial">';
+    echo '&lt;figure class="testimonial-thumb">';
+    the_post_thumbnail('medium');
+    echo '&lt;/figure>';
+    echo '&lt;h1 class="entry-title">' . get_the_title() . '&lt;/h1>';
+    echo '&lt;div class="entry-content">';
+    the_content();
+    echo '&lt;/div>';
+    echo '&lt;/div>';
+endwhile;
+echo '&lt;/aside>';
+                </code></pre>
+                <h4>In childtheme/style.css:</h4>
+                <pre><code class="language-css">
+#testimonials {
+    background: #fff;
+    padding: 4rem 0;
+}
+
+.testimonial {
+    width: 33.333333%;
+    float: left;
+    padding: 0 4rem;
+}
+
+.testimonial-thumb img {
+    display: block;
+    margin: 0 auto 2rem;
+}
+
+.testimonial h1 {
+    text-align: center;
+}
+                </code></pre>
+            </article><!-- .movie -->
+        </section><!-- #chapter-06 -->
+    </div><!-- #main -->
+
+    <footer class="footer">
+  
+    </footer>
+</div>
+</body>
+</html>
